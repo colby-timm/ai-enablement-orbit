@@ -1,6 +1,6 @@
-# Orbit CLI for Azure Cosmos DB
+![Orbit Logo](.imgs/orbit-logo.png)
 
-> A type-safe, developer-friendly command-line interface for Azure Cosmos DB.
+> Orbit: A type-safe, developer-friendly command-line interface for Azure Cosmos DB.
 
 Orbit helps you perform Cosmos DB CRUD operations, run queries with pagination, and manage resources directly from your terminal. It emphasizes clarity, safety, and clean architecture: repository abstractions, authentication strategies, domain models, and Rich-powered output. Designed to work both with live Azure accounts and the local Cosmos DB Emulator.
 
