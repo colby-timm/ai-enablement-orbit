@@ -77,16 +77,105 @@ class CosmosRepository(Protocol):
         """
         ...
 
-    def get_item(self, item_id: str) -> Any:  # pragma: no cover - placeholder
-        """Retrieve a single item by its identifier.
+    def get_item(
+        self, container_name: str, item_id: str, partition_key_value: str
+    ) -> dict[str, Any]:
+        """Retrieve a single item by ID and partition key.
 
-        TODO: define partition key handling and error modes.
+        Args:
+            container_name: Name of the container containing the item.
+            item_id: Unique identifier of the item within the partition.
+            partition_key_value: Value of the partition key for this item.
+
+        Returns:
+            Dictionary containing the item data.
+
+        Raises:
+            CosmosItemNotFoundError: Item does not exist.
+            CosmosPartitionKeyMismatchError: Partition key mismatch.
+            CosmosConnectionError: Connection to Cosmos DB fails.
         """
-        raise NotImplementedError("TODO: implement get_item")
+        ...
 
-    def list_items(self) -> list[Any]:  # pragma: no cover - placeholder
-        """List items with default pagination limit.
+    def create_item(
+        self, container_name: str, item: dict[str, Any], partition_key_value: str
+    ) -> dict[str, Any]:
+        """Create a new item in the specified container.
 
-        TODO: implement cross-partition queries and RU tracking.
+        Args:
+            container_name: Name of the container to create the item in.
+            item: Item data dictionary (must include 'id' field).
+            partition_key_value: Value of the partition key for this item.
+
+        Returns:
+            Created item dictionary.
+
+        Raises:
+            CosmosDuplicateItemError: Item with this ID already exists in partition.
+            CosmosPartitionKeyMismatchError: Partition key mismatch.
+            CosmosConnectionError: Connection to Cosmos DB fails.
+            ValueError: Item missing 'id' field or invalid inputs.
         """
-        raise NotImplementedError("TODO: implement list_items")
+        ...
+
+    def update_item(
+        self,
+        container_name: str,
+        item_id: str,
+        item: dict[str, Any],
+        partition_key_value: str,
+    ) -> dict[str, Any]:
+        """Update an existing item (upsert: create if not exists).
+
+        Args:
+            container_name: Name of the container containing the item.
+            item_id: Unique identifier of the item to update.
+            item: Complete item data dictionary (must include 'id' field).
+            partition_key_value: Value of the partition key for this item.
+
+        Returns:
+            Updated item dictionary.
+
+        Raises:
+            CosmosPartitionKeyMismatchError: Partition key mismatch.
+            CosmosConnectionError: Connection to Cosmos DB fails.
+            ValueError: Item['id'] doesn't match item_id parameter.
+        """
+        ...
+
+    def delete_item(
+        self, container_name: str, item_id: str, partition_key_value: str
+    ) -> None:
+        """Delete an item by ID and partition key (idempotent).
+
+        Args:
+            container_name: Name of the container containing the item.
+            item_id: Unique identifier of the item to delete.
+            partition_key_value: Value of the partition key for this item.
+
+        Raises:
+            CosmosPartitionKeyMismatchError: Partition key mismatch.
+            CosmosConnectionError: Connection to Cosmos DB fails.
+
+        Note:
+            Does not raise error if item does not exist.
+        """
+        ...
+
+    def list_items(
+        self, container_name: str, max_count: int = 100
+    ) -> list[dict[str, Any]]:
+        """List items in container with pagination limit.
+
+        Args:
+            container_name: Name of the container to query.
+            max_count: Maximum number of items to return (default: 100).
+
+        Returns:
+            List of item dictionaries (up to max_count items).
+
+        Raises:
+            CosmosConnectionError: Connection to Cosmos DB fails.
+            ValueError: max_count is not a positive integer.
+        """
+        ...

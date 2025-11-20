@@ -16,11 +16,11 @@ from dataclasses import dataclass
 from typing import Optional
 
 from orbit.auth.strategy import ConnectionStringAuthStrategy
-from orbit.repositories.cosmos import CosmosContainerRepository
 from orbit.exceptions import (
-    CosmosResourceExistsError,
     CosmosInvalidPartitionKeyError,
+    CosmosResourceExistsError,
 )
+from orbit.repositories.cosmos import CosmosContainerRepository
 
 # Cosmos DB Emulator connection string (fixed for all emulator instances)
 EMULATOR_CONNECTION_STRING = (
@@ -32,6 +32,7 @@ EMULATOR_CONNECTION_STRING = (
 @dataclass
 class EmulatorSettings:
     """Settings for emulator connection."""
+
     connection_string: Optional[str] = EMULATOR_CONNECTION_STRING
     endpoint: Optional[str] = None
     key: Optional[str] = None
@@ -41,7 +42,7 @@ def print_test(test_num: int, description: str) -> None:
     """Print test header."""
     print(f"\n{'='*70}")
     print(f"Test {test_num}: {description}")
-    print('='*70)
+    print("=" * 70)
 
 
 def main():
@@ -111,11 +112,11 @@ def main():
     print_test(4, "List containers (after creation)")
     try:
         containers = repo.list_containers()
-        container_names = [c['id'] for c in containers]
+        container_names = [c["id"] for c in containers]
         print(f"✓ Found {len(containers)} containers:")
         for name in container_names:
             print(f"  - {name}")
-        
+
         if "integration-test-users" not in container_names:
             print("❌ ERROR: Created container not found in list!")
             sys.exit(1)
@@ -154,10 +155,10 @@ def main():
     try:
         repo.delete_container("integration-test-users")
         print("✓ Container deleted successfully")
-        
+
         # Verify it's gone
         containers = repo.list_containers()
-        container_names = [c['id'] for c in containers]
+        container_names = [c["id"] for c in containers]
         if "integration-test-users" in container_names:
             print("❌ ERROR: Container still exists after delete!")
             sys.exit(1)

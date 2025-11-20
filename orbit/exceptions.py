@@ -47,3 +47,28 @@ class CosmosInvalidPartitionKeyError(OrbitError):
 
     Partition key paths must start with '/' and follow Cosmos DB naming rules.
     """
+
+
+class CosmosItemNotFoundError(OrbitError):
+    """Raised when a requested item does not exist.
+
+    Occurs when attempting to retrieve or delete an item by ID and partition
+    key that has not been created or has been deleted. HTTP status code: 404.
+    """
+
+
+class CosmosPartitionKeyMismatchError(OrbitError):
+    """Raised when partition key value doesn't match container definition.
+
+    Occurs when the provided partition key value is inconsistent with the
+    container's partition key path or when the item's partition key field
+    doesn't match the provided value. HTTP status code: 400.
+    """
+
+
+class CosmosDuplicateItemError(OrbitError):
+    """Raised when attempting to create an item with duplicate ID in partition.
+
+    Occurs when creating an item with an ID that already exists within the
+    same partition. Use update_item for upsert behavior. HTTP status code: 409.
+    """
