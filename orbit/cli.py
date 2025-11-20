@@ -82,13 +82,6 @@ def main(
         raise typer.Exit(0)
 
 
-@app.command("demo")
-def demo_command() -> None:
-    """Placeholder command demonstrating output adapter wiring."""
-    data: dict[str, Any] = {"status": "ok", "message": "demo placeholder"}
-    context_state.output.render(data)
-
-
 # Register command groups (after context_state is defined)
 from .commands.containers import containers_app  # noqa: E402
 from .commands.items import items_app  # noqa: E402
