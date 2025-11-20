@@ -12,6 +12,33 @@ Orbit is a command-line application for interacting with Azure Cosmos DB. It pro
 - Pydantic (data validation)
 - Rich (terminal formatting and output)
 
+## Tooling & Package Management
+
+### Package Manager
+
+**ALWAYS use `uv` for all package management operations:**
+
+- Install dependencies: `uv pip install -e .`
+- Install specific packages: `uv pip install <package>`
+- Install dev dependencies: `uv pip install -e ".[dev]"`
+- **Never use plain `pip` commands; always use `uv pip`**
+
+### Code Quality
+
+**Use `ruff` for linting and formatting:**
+
+- Check code: `ruff check <path>`
+- Format code: `ruff format <path>`
+- Run before all commits
+
+### Testing
+
+**Use `pytest` with coverage:**
+
+- Run tests: `pytest tests/ -v`
+- Check coverage: `pytest --cov=orbit --cov-report=term-missing`
+- Target: ≥80% coverage for all modules
+
 ## Project Conventions
 
 ### Code Style

@@ -2,76 +2,76 @@
 
 ## Prerequisites
 
-- [ ] Verify `add-cli-boilerplate` change is complete and merged
-- [ ] Review Azure Cosmos SDK documentation for `CosmosClient` initialization patterns
-- [ ] Confirm `OrbitSettings` structure supports connection string configuration
+- [x] Verify `add-cli-boilerplate` change is complete and merged
+- [x] Review Azure Cosmos SDK documentation for `CosmosClient` initialization patterns
+- [x] Confirm `OrbitSettings` structure supports connection string configuration
 
 ## Core Implementation
 
-- [ ] Add `azure-cosmos` dependency to `pyproject.toml` (specify version >= 4.5.0)
-- [ ] Install dependencies: `pip install -e .` or equivalent
-- [ ] Import `CosmosClient` from `azure.cosmos` in `orbit/auth/strategy.py`
-- [ ] Implement `ConnectionStringAuthStrategy.get_client()`:
-  - [ ] Extract connection string from `self.settings.connection_string`
-  - [ ] Validate connection string is not None or empty (raise `CosmosAuthError`)
-  - [ ] Parse and validate endpoint from connection string
-  - [ ] Initialize `CosmosClient(self.settings.connection_string)`
-  - [ ] Wrap SDK initialization in try-except for credential/network errors
-  - [ ] Map SDK exceptions to domain exceptions (`CosmosAuthError`, `CosmosConnectionError`)
-  - [ ] Log sanitized initialization message (no secrets)
-  - [ ] Return configured `CosmosClient` instance
-- [ ] Remove TODO comments from implementation
+- [x] Add `azure-cosmos` dependency to `pyproject.toml` (specify version >= 4.5.0)
+- [x] Install dependencies: `pip install -e .` or equivalent
+- [x] Import `CosmosClient` from `azure.cosmos` in `orbit/auth/strategy.py`
+- [x] Implement `ConnectionStringAuthStrategy.get_client()`:
+  - [x] Extract connection string from `self.settings.connection_string`
+  - [x] Validate connection string is not None or empty (raise `CosmosAuthError`)
+  - [x] Parse and validate endpoint from connection string
+  - [x] Initialize `CosmosClient(self.settings.connection_string)`
+  - [x] Wrap SDK initialization in try-except for credential/network errors
+  - [x] Map SDK exceptions to domain exceptions (`CosmosAuthError`, `CosmosConnectionError`)
+  - [x] Log sanitized initialization message (no secrets)
+  - [x] Return configured `CosmosClient` instance
+- [x] Remove TODO comments from implementation
 
 ## Error Handling
 
-- [ ] Add specific exception for malformed connection strings
-- [ ] Add specific exception for invalid credentials/authentication failures
-- [ ] Add specific exception for unreachable endpoints/network errors
-- [ ] Ensure all error messages are actionable and secret-free
-- [ ] Test error messages for clarity and security
+- [x] Add specific exception for malformed connection strings
+- [x] Add specific exception for invalid credentials/authentication failures
+- [x] Add specific exception for unreachable endpoints/network errors
+- [x] Ensure all error messages are actionable and secret-free
+- [x] Test error messages for clarity and security
 
 ## Testing
 
-- [ ] Create `tests/test_auth_strategy.py` (or extend existing test file)
-- [ ] Test successful client creation with valid connection string (mock CosmosClient)
-- [ ] Test `CosmosAuthError` raised when connection string is None
-- [ ] Test `CosmosAuthError` raised when connection string is empty string
-- [ ] Test `CosmosAuthError` raised for malformed connection strings
-- [ ] Test `CosmosConnectionError` raised for network failures (mock SDK exception)
-- [ ] Test `CosmosAuthError` raised for invalid credentials (mock SDK auth exception)
-- [ ] Test no secrets logged during successful initialization
-- [ ] Test no secrets logged during error scenarios
-- [ ] Verify test coverage meets 80% threshold for auth module
-- [ ] Run `pytest tests/test_auth_strategy.py -v`
+- [x] Create `tests/test_auth_strategy.py` (or extend existing test file)
+- [x] Test successful client creation with valid connection string (mock CosmosClient)
+- [x] Test `CosmosAuthError` raised when connection string is None
+- [x] Test `CosmosAuthError` raised when connection string is empty string
+- [x] Test `CosmosAuthError` raised for malformed connection strings
+- [x] Test `CosmosConnectionError` raised for network failures (mock SDK exception)
+- [x] Test `CosmosAuthError` raised for invalid credentials (mock SDK auth exception)
+- [x] Test no secrets logged during successful initialization
+- [x] Test no secrets logged during error scenarios
+- [x] Verify test coverage meets 80% threshold for auth module
+- [x] Run `pytest tests/test_auth_strategy.py -v`
 
 ## Code Quality
 
-- [ ] Run `ruff check orbit/auth/` and fix any issues
-- [ ] Run `ruff format orbit/auth/` to ensure formatting
-- [ ] Verify function length < 20 lines (split if needed)
-- [ ] Verify descriptive variable names (no abbreviations)
-- [ ] Add/update docstrings with Google-style format
-- [ ] Ensure type hints on all function signatures
+- [x] Run `ruff check orbit/auth/` and fix any issues
+- [x] Run `ruff format orbit/auth/` to ensure formatting
+- [x] Verify function length < 20 lines (split if needed)
+- [x] Verify descriptive variable names (no abbreviations)
+- [x] Add/update docstrings with Google-style format
+- [x] Ensure type hints on all function signatures
 
 ## Validation
 
-- [ ] Run full test suite: `pytest tests/ -v`
-- [ ] Verify coverage: `pytest --cov=orbit --cov-report=term-missing`
-- [ ] Manual validation: Attempt to create client with valid emulator connection string
-- [ ] Manual validation: Verify error messages for invalid connection string
-- [ ] Run `openspec validate implement-connection-string-auth --strict`
+- [x] Run full test suite: `pytest tests/ -v`
+- [x] Verify coverage: `pytest --cov=orbit --cov-report=term-missing`
+- [x] Manual validation: Attempt to create client with valid emulator connection string
+- [x] Manual validation: Verify error messages for invalid connection string
+- [x] Run `openspec validate implement-connection-string-auth --strict`
 
 ## Documentation
 
-- [ ] Update inline comments explaining error handling strategy
-- [ ] Document connection string format expectations in docstring
-- [ ] Add usage example in docstring if appropriate
+- [x] Update inline comments explaining error handling strategy
+- [x] Document connection string format expectations in docstring
+- [x] Add usage example in docstring if appropriate
 
 ## Completion Checklist
 
-- [ ] All tests passing
-- [ ] Coverage ≥ 80% for modified modules
-- [ ] No ruff errors or warnings
-- [ ] No secrets exposed in logs or error messages
-- [ ] OpenSpec validation passes
-- [ ] Ready for code review
+- [x] All tests passing
+- [x] Coverage ≥ 80% for modified modules
+- [x] No ruff errors or warnings
+- [x] No secrets exposed in logs or error messages
+- [x] OpenSpec validation passes
+- [x] Ready for code review

@@ -27,6 +27,26 @@ Agents assist development of Orbit, a Python CLI for Azure Cosmos DB. Core respo
 
 Orbit provides developers a type-safe terminal interface for Cosmos DB CRUD operations and queries. Built with Python 3.10+, Typer (CLI), `azure-cosmos` SDK, Pydantic validation, and Rich formatting. Supports connection string and managed identity auth. Must work offline with Cosmos DB emulator. All write operations require confirmation unless `--yes` flag provided.
 
+### Tooling & Package Management
+
+**Package Manager**: Use `uv` for all package management operations:
+
+- Install dependencies: `uv pip install -e .`
+- Install specific packages: `uv pip install <package>`
+- Install dev dependencies: `uv pip install -e ".[dev]"`
+- Never use plain `pip` commands; always use `uv pip`
+
+**Code Quality**: Use `ruff` for linting and formatting:
+
+- Check code: `ruff check <path>`
+- Format code: `ruff format <path>`
+
+**Testing**: Use `pytest` with coverage:
+
+- Run tests: `pytest tests/ -v`
+- Check coverage: `pytest --cov=orbit --cov-report=term-missing`
+- Target: ≥80% coverage for all modules
+
 ## 3. Agent Roles
 
 ### Developer Agent

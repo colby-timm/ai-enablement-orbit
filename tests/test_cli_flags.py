@@ -80,21 +80,25 @@ def test_should_raise_no_secret_logging_when_auth_init(caplog) -> None:
 
 
 def test_should_expose_strategy_interface_contract() -> None:
+    from unittest.mock import Mock, patch
+
     # Arrange
     settings_conn = OrbitSettings(
-        connection_string="AccountEndpoint=https://localhost:8081/;AccountKey=X;"
+        connection_string="AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="
     )
     conn_strategy = ConnectionStringAuthStrategy(settings_conn)
 
     settings_msi = OrbitSettings(endpoint="https://example.documents.azure.com:443/")
     msi_strategy = ManagedIdentityAuthStrategy(settings_msi)
 
-    # Act / Assert
-    try:
-        conn_strategy.get_client()
-    except CosmosConnectionError:
-        pass
+    # Act / Assert - connection string strategy should work with mocking
+    with patch("orbit.auth.strategy.CosmosClient") as mock_cosmos_client:
+        mock_client = Mock()
+        mock_cosmos_client.from_connection_string.return_value = mock_client
+        client = conn_strategy.get_client()
+        assert client == mock_client
 
+    # Managed identity strategy still raises TODO error
     try:
         msi_strategy.get_client()
     except CosmosConnectionError:
