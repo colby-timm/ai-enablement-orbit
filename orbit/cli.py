@@ -91,8 +91,10 @@ def demo_command() -> None:
 
 # Register command groups (after context_state is defined)
 from .commands.containers import containers_app  # noqa: E402
+from .commands.items import items_app  # noqa: E402
 
 app.add_typer(containers_app, name="containers")
+app.add_typer(items_app, name="items")
 
 
 if __name__ == "__main__":  # pragma: no cover
