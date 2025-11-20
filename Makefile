@@ -23,7 +23,7 @@ install: venv
 	uv pip install -e .[dev]
 
 run:
-	uv run python -m orbit.cli $(ARGS)
+	uv run python -m orbit $(ARGS)
 
 test:
 	uv run pytest --cov=orbit --cov-report=term-missing -m "not manual"
