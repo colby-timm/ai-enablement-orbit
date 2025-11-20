@@ -8,3 +8,8 @@ As part of this Capstone project, I decided to use OpenSpec to design and track 
 - Possible improvement: Have specs create branches or worktrees. Don't do that automatically.
 - Ensure you use the slash command `/openspec:apply {spec-name}` directly vs telling the agent to implement with the slash command.
 - I continuously had hard times to get Copilot to do all the tasks. Had to reword my Agents.md file and `opencode-apply` slash command.
+- It seems to only check off the tasks at the end, which doesn't inspire too much confidence that it did all of them. Definitely can modify the slash commands to improve this to ensure it goes one by one.
+
+### What I liked
+
+- Being able to view the completed changes and active changes with percent complete was helpful visually.

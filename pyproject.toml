@@ -30,6 +30,9 @@ packages = ["orbit"]
 [tool.pytest.ini_options]
 addopts = "-q"
 pythonpath = ["."]
+markers = [
+    "manual: Manual integration tests requiring human verification",
+]
 
 [tool.ruff]
 line-length = 88

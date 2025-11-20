@@ -80,5 +80,11 @@ def demo_command() -> None:
     context_state.output.render(data)
 
 
+# Register command groups (after context_state is defined)
+from .commands.containers import containers_app  # noqa: E402
+
+app.add_typer(containers_app, name="containers")
+
+
 if __name__ == "__main__":  # pragma: no cover
     app()
