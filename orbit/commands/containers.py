@@ -11,14 +11,17 @@ import typer
 from rich.table import Table
 
 from orbit.cli import context_state
+from orbit.config import OrbitSettings
 from orbit.confirmation import require_confirmation
 from orbit.exceptions import (
+    CosmosAuthError,
     CosmosConnectionError,
     CosmosInvalidPartitionKeyError,
     CosmosQuotaExceededError,
     CosmosResourceExistsError,
     CosmosResourceNotFoundError,
 )
+from orbit.factory import RepositoryFactory
 from orbit.repositories.cosmos import CosmosContainerRepository
 
 containers_app = typer.Typer(help="Manage Cosmos DB containers")
@@ -28,12 +31,33 @@ CONNECTION_ERROR_MSG = "Failed to connect to Cosmos DB. Check connection string.
 
 
 def _get_repository() -> CosmosContainerRepository:
-    """Get repository instance.
+    """Get repository instance from factory.
 
-    TODO: Wire from factory/DI in future change.
-    For now, requires manual instantiation with auth client.
+    Returns:
+        CosmosContainerRepository: Configured repository instance.
+
+    Raises:
+        typer.Exit: When configuration is invalid or auth fails.
     """
-    raise NotImplementedError("Repository factory not yet implemented")
+    try:
+        settings = OrbitSettings.load()
+        factory = RepositoryFactory(settings)
+        return factory.get_container_repository()
+    except ValueError as e:
+        # Database name not configured
+        typer.echo(f"Configuration error: {e}")
+        typer.echo(
+            "Set the ORBIT_DATABASE_NAME environment variable to your database name."
+        )
+        raise typer.Exit(1) from None
+    except CosmosAuthError as e:
+        # Connection string missing or invalid
+        typer.echo(f"Authentication error: {e}")
+        typer.echo(
+            "Set the ORBIT_COSMOS_CONNECTION_STRING environment variable "
+            "with your Cosmos DB connection string."
+        )
+        raise typer.Exit(1) from None
 
 
 def _validate_partition_key(partition_key: str) -> None:

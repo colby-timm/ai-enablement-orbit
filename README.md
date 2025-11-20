@@ -48,11 +48,12 @@ Global flags implemented at this stage:
 
 Environment variables (scaffolding phase) used by auth strategies:
 
-| Variable | Purpose |
-|----------|---------|
-| `ORBIT_COSMOS_CONNECTION_STRING` | Full connection string (use instead of endpoint/key pair) |
-| `ORBIT_COSMOS_ENDPOINT` | Account endpoint when using managed identity (future) |
-| `ORBIT_COSMOS_KEY` | Primary key for endpoint/key auth (never logged) |
+| Variable | Purpose | Required |
+|----------|---------|----------|
+| `ORBIT_COSMOS_CONNECTION_STRING` | Full connection string (use instead of endpoint/key pair) | Yes (for connection string auth) |
+| `ORBIT_DATABASE_NAME` | Database name for all operations | Yes |
+| `ORBIT_COSMOS_ENDPOINT` | Account endpoint when using managed identity (future) | No |
+| `ORBIT_COSMOS_KEY` | Primary key for endpoint/key auth (never logged) | No |
 
 > Secrets are never logged or printed; tests enforce absence of secret substrings.
 
@@ -84,19 +85,42 @@ Environment variables (scaffolding phase) used by auth strategies:
 
 ## Configuration
 
-Orbit draws configuration primarily from environment variables and CLI flags:
+Orbit requires environment variables to connect to Cosmos DB:
 
-| Variable          | Purpose                                  | Required (Strategy) |
-|-------------------|-------------------------------------------|---------------------|
-| `COSMOS_ENDPOINT` | Cosmos DB endpoint URL                    | Connection string & Emulator |
-| `COSMOS_KEY`      | Primary key (avoid printing/logging)      | Connection string only |
-| `COSMOS_DATABASE` | Default logical database name             | Optional (falls back to flag) |
+### Environment Variables
 
-Additional runtime flags (planned):
+| Variable          | Purpose                                  | Required |
+|-------------------|-------------------------------------------|----------|
+| `ORBIT_DATABASE_NAME` | Database name for all operations | Yes |
+| `ORBIT_COSMOS_CONNECTION_STRING` | Full connection string (endpoint + key) | Yes |
+| `ORBIT_COSMOS_ENDPOINT` | Account endpoint (for managed identity, future) | No |
+| `ORBIT_COSMOS_KEY` | Primary key (never logged) | No |
 
-- `--database` override default database
-- `--yes` suppress mutation confirmations
-- `--limit` control max items returned (default 100)
+### Example Setup
+
+```bash
+# Using connection string (recommended)
+export ORBIT_DATABASE_NAME="mydb"
+export ORBIT_COSMOS_CONNECTION_STRING="AccountEndpoint=https://myaccount.documents.azure.com:443/;AccountKey=..."
+
+# Run commands
+orbit containers list
+```
+
+### Troubleshooting
+
+#### Database name not configured
+
+- Set the `ORBIT_DATABASE_NAME` environment variable
+- Example: `export ORBIT_DATABASE_NAME="mydb"`
+
+#### Connection string not provided
+
+- Set the `ORBIT_COSMOS_CONNECTION_STRING` environment variable
+- Get your connection string from Azure Portal → Cosmos DB account → Keys
+- Example: `export ORBIT_COSMOS_CONNECTION_STRING="AccountEndpoint=...;AccountKey=..."`
+
+> Secrets are never logged or printed. Tests enforce absence of secret material in outputs.
 
 ## Usage Examples (Planned CLI Commands)
 
@@ -185,7 +209,7 @@ fix(query): handle cross-partition RU spikes
 ## Roadmap (Initial)
 
 - [ ] Establish package structure (`orbit/` module, repositories, strategies)
-    - [x] Boilerplate implemented (this change)
+  - [x] Boilerplate implemented (this change)
 - [ ] Define auth strategy interfaces & implementations
 - [ ] Implement container list/create/delete
 - [ ] Implement item CRUD

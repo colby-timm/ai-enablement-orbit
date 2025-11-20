@@ -6,12 +6,21 @@ plugged into this app in future changes.
 
 from __future__ import annotations
 
+import warnings
 from dataclasses import dataclass
 from typing import Any, Optional
 
 import typer
 
 from .output import OutputAdapter
+
+# Suppress urllib3 SSL warnings when connecting to Cosmos DB emulator
+# Emulator uses self-signed certificates on localhost
+warnings.filterwarnings(
+    "ignore",
+    message="Unverified HTTPS request",
+    category=Warning,
+)
 
 app = typer.Typer(help="Orbit CLI for Azure Cosmos DB (boilerplate phase)")
 

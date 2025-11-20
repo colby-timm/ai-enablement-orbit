@@ -113,6 +113,67 @@ Created container 'test-container-1234567890' with partition key '/id' (400 RU/s
 - Emulator has throughput limits
 - Wait between test runs or restart emulator
 
+---
+
+## End-to-End Container Command Tests
+
+**File**: `test_containers_e2e.py`
+
+Tests the complete flow from CLI command through factory, repository, and Cosmos DB using the dependency injection framework.
+
+### Setup Requirements
+
+1. **Start Cosmos DB Emulator**
+
+   ```bash
+   docker run -p 8081:8081 --name cosmos-emulator \
+     mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator
+   ```
+
+2. **Create Test Database**
+   - The emulator must have a database created before running tests
+   - Use Azure Storage Explorer or the Data Explorer in the emulator
+
+3. **Set Environment Variables**
+
+   ```bash
+   export ORBIT_DATABASE_NAME="test-orbit"
+   export ORBIT_COSMOS_CONNECTION_STRING="AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="
+   ```
+
+### Running Tests
+
+```bash
+# Run all end-to-end tests
+pytest -m manual tests/integration/test_containers_e2e.py -v
+
+# Run specific test
+pytest -m manual tests/integration/test_containers_e2e.py::test_should_list_containers_from_real_database -v
+```
+
+### What These Tests Verify
+
+- ✅ Factory instantiation from environment variables
+- ✅ Repository creation via factory
+- ✅ Client caching across repository requests
+- ✅ Complete round-trip: CLI → factory → repository → Cosmos DB
+- ✅ Error messages for missing configuration
+- ✅ JSON vs. human-readable output formatting
+- ✅ Authentication error handling
+
+### Notes on Factory Testing
+
+These tests exercise the full dependency injection flow:
+
+1. `OrbitSettings.load()` reads environment variables
+2. `RepositoryFactory` creates authenticated `CosmosClient`
+3. Repository methods interact with real Cosmos DB
+4. CLI commands display formatted output
+
+The factory caches the client instance, so tests verify that multiple repository requests reuse the same connection.
+
+---
+
 - ✅ Error handling for invalid partition keys
 - ✅ Idempotent delete operations
 

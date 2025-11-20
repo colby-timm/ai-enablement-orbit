@@ -15,6 +15,7 @@ from .exceptions import CosmosAuthError
 CONNECTION_STRING_ENV = "ORBIT_COSMOS_CONNECTION_STRING"
 ENDPOINT_ENV = "ORBIT_COSMOS_ENDPOINT"
 KEY_ENV = "ORBIT_COSMOS_KEY"
+DATABASE_NAME_ENV = "ORBIT_DATABASE_NAME"
 
 
 @dataclass
@@ -22,6 +23,7 @@ class OrbitSettings:
     connection_string: Optional[str] = None
     endpoint: Optional[str] = None
     key: Optional[str] = None
+    database_name: Optional[str] = None
 
     @classmethod
     def load(cls) -> "OrbitSettings":
@@ -29,6 +31,7 @@ class OrbitSettings:
             connection_string=os.getenv(CONNECTION_STRING_ENV),
             endpoint=os.getenv(ENDPOINT_ENV),
             key=os.getenv(KEY_ENV),
+            database_name=os.getenv(DATABASE_NAME_ENV),
         )
         # minimal validation placeholder
         if settings.connection_string and (settings.key or settings.endpoint):

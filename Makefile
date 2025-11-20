@@ -45,9 +45,6 @@ lint:
 format:
 	uv run ruff format .
 
-spec-validate:
-	@echo "TODO: integrate openspec validation tool (openspec validate add-cli-boilerplate --strict)"
-
 clean:
 	find . -type d -name __pycache__ -prune -exec rm -rf {} +
 
