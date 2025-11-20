@@ -13,3 +13,8 @@ As part of this Capstone project, I decided to use OpenSpec to design and track 
 ### What I liked
 
 - Being able to view the completed changes and active changes with percent complete was helpful visually.
+
+### Things to note
+
+- Always create a new context window per spec or per create spec vs implement spec.
+- Used `microsoft-docs` MCP
