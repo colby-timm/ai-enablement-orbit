@@ -15,7 +15,10 @@ Track these steps as TODOs and complete them one by one.
 2. Work through tasks sequentially, keeping edits minimal and focused on the requested change.
 3. Confirm completion before updating statuses—make sure every item in `tasks.md` is finished.
 4. Update the checklist after all work is done so each task is marked `- [x]` and reflects reality.
-5. Reference `openspec list` or `openspec show <item>` when additional context is required.
+5. Run `openspec list` and verify the change shows 100% completion (all tasks checked).
+6. Run `openspec validate <id> --strict` to ensure spec format is valid.
+7. Create a Copilot task reminding the user to run manual integration tests if tasks.md includes manual validation steps.
+8. Reference `openspec list` or `openspec show <item>` when additional context is required.
 
 **Reference**
 - Use `openspec show <id> --json --deltas-only` if you need additional context from the proposal while implementing.

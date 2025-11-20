@@ -29,23 +29,25 @@ Orbit provides developers a type-safe terminal interface for Cosmos DB CRUD oper
 
 ### Tooling & Package Management
 
-**Package Manager**: Use `uv` for all package management operations:
+**Critical**: All Python commands MUST use `uv` to ensure proper virtual environment activation and dependency management. Never run bare `python`, `pip`, `pytest`, or `ruff` commands.
 
-- Install dependencies: `uv pip install -e .`
-- Install specific packages: `uv pip install <package>`
-- Install dev dependencies: `uv pip install -e ".[dev]"`
-- Never use plain `pip` commands; always use `uv pip`
+**Makefile Commands**: Use `make` targets for all common operations:
 
-**Code Quality**: Use `ruff` for linting and formatting:
+- Install dependencies: `make install`
+- Run tests with coverage: `make test`
+- Lint code: `make lint`
+- Format code: `make format`
+- Run CLI: `make run ARGS='--help'`
+- Clean artifacts: `make clean`
 
-- Check code: `ruff check <path>`
-- Format code: `ruff format <path>`
+**Manual Commands** (when Makefile not applicable):
 
-**Testing**: Use `pytest` with coverage:
+- Install packages: `uv pip install <package>`
+- Run Python: `uv run python <script>`
+- Run pytest: `uv run pytest <args>`
+- Run ruff: `uv run ruff check <path>`
 
-- Run tests: `pytest tests/ -v`
-- Check coverage: `pytest --cov=orbit --cov-report=term-missing`
-- Target: ≥80% coverage for all modules
+**Testing**: Target ≥80% coverage for all modules. Always use `make test` or `uv run pytest --cov=orbit --cov-report=term-missing`
 
 ## 3. Agent Roles
 
@@ -54,8 +56,11 @@ Orbit provides developers a type-safe terminal interface for Cosmos DB CRUD oper
 - Implement features per `tasks.md` checklists in active changes
 - Follow PEP 8, use type hints, maintain 88-char line limit
 - Apply Clean Code: single responsibility functions (5-20 lines), 0-2 params, no side effects
-- Run `ruff check` and `ruff format` before completion
-- Update tests to maintain 80% coverage
+- Run `make lint` and `make format` before completion
+- Update tests to maintain 80% coverage (verify with `make test`)
+- **Run `openspec list` after implementation and verify change shows 100% completion**
+- **Run `openspec validate <change-id> --strict` to ensure spec format is valid**
+- **Create Copilot task for manual integration tests if tasks.md includes manual validation steps**
 - Tools: file edit, terminal execution, code search
 
 ### Reviewer Agent
@@ -65,6 +70,8 @@ Orbit provides developers a type-safe terminal interface for Cosmos DB CRUD oper
 - Verify architectural patterns: Repository, Factory, Strategy, Adapter
 - Ensure secrets never logged/printed
 - Confirm AAA test structure and descriptive test names
+- Run `openspec list` to verify all tasks marked complete (100% completion)
+- Run `openspec validate <change-id> --strict` to confirm spec format compliance
 - Tools: file read, spec validation, diff comparison
 
 ### Testing Agent
